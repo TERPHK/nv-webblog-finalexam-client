@@ -1,42 +1,42 @@
 <template>
   <div>
-    <h1>Get All courses</h1>
-    <div>จํานวนผู้ใช้งาน {{ courses.length }}</div>
-    <div v-for="course in courses" v-bind:key="course.id">
-      <div>id: {{ course.id }}</div>
-      <div>ชื่อ-นามสกุล: {{ course.name }} - {{ course.lastname }}</div>
-      <div>email: {{ course.email }}</div>
-      <div>password: {{ course.password }}</div>
+    <h1>Get All Users</h1>
+    <div>จํานวนผู้ใช้งาน {{ users.length }}</div>
+    <div v-for="user in users" v-bind:key="user.id">
+      <div>id: {{ user.id }}</div>
+      <div>ชืEอ-นามสกุล: {{ user.name }} - {{ user.lastname }}</div>
+      <div>email: {{ user.email }}</div>
+      <div>password: {{ user.password }}</div>
       <p>
-        <button v-on:click="navigateTo('/course/' + course.id)">
+        <button v-on:click="navigateTo('/user/' + user.id)">
           ดูข้อมูลผู้ใช้
         </button>
-        <button v-on:click="navigateTo('/course/edit/' + course.id)">
+        <button v-on:click="navigateTo('/user/edit/' + user.id)">
           แกไขข้อมูล
         </button>
-        <button v-on:click="deleteCourse(course)">ลบข้อมูล</button>
+        <button v-on:click="deleteUser(user)">ลบข้อมูล</button>
       </p>
       <hr />
     </div>
   </div>
 </template>
 <script>
-import CourseServices from "@/services/CourseService";
+import UserServices from "@/services/UserService";
 export default {
   data() {
     return {
-      courses: []
+      users: []
     };
   },
   methods: {
     navigateTo(route) {
       this.$router.push(route);
     },
-    async deleteCourse(course) {
+    async deleteUser(user) {
       let result = confirm("Want to delete?");
       if (result) {
         try {
-          await CourseServices.delete(course);
+          await UserServices.delete(user);
           this.refreshData()
         } catch (err) {
           console.log(err);
@@ -44,11 +44,11 @@ export default {
       }
     },
     async refreshData() {
-      this.courses = (await CourseServices.index()).data;
+      this.users = (await UserServices.index()).data;
     }
   },
   async created() {
-    this.courses = (await CourseServices.index()).data;
+    this.users = (await UserServices.index()).data;
   }
 };
 </script>
